@@ -55,7 +55,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - wordpress:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email $USER_EMAIL --agree-tos --no-eff-email --force-renewal -d $USER_DOMAIN -d www.$USER_DOMAIN
+    command: certonly --webroot --webroot-path=/var/www/html --email $user_email --agree-tos --no-eff-email --force-renewal -d $user_domain -d www.$user_domain
 
 volumes:
   certbot-etc:
