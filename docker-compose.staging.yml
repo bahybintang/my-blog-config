@@ -39,11 +39,9 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - wordpress:/var/www/html
-      - ./nginx-conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - ./nginx-conf/options-ssl-nginx.conf:/etc/nginx/conf.d/options-ssl-nginx.conf
+      - ./nginx-conf/nginx.staging.conf:/etc/nginx/conf.d/nginx.conf
       - certbot-etc:/etc/letsencrypt
     networks:
       - app-network
@@ -56,7 +54,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - wordpress:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email bahybintang@gmail.com --agree-tos --no-eff-email --force-renewal -d canyous.top -d www.canyous.top
+    command: certonly --webroot --webroot-path=/var/www/html --email bahybintang@gmail.com --agree-tos --no-eff-email --staging -d canyous.top -d www.canyous.top
 
 volumes:
   certbot-etc:
