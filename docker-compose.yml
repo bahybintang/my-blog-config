@@ -6,8 +6,6 @@ services:
     container_name: db
     restart: unless-stopped
     env_file: .env
-    environment:
-      - MYSQL_DATABASE=wordpress
     volumes:
       - dbdata:/var/lib/mysql
     command: "--default-authentication-plugin=mysql_native_password"
@@ -25,7 +23,7 @@ services:
       - WORDPRESS_DB_HOST=db:3306
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
-      - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DB_NAME=$MYSQL_DATABASE
     volumes:
       - wordpress:/var/www/html
     networks:
@@ -37,6 +35,7 @@ services:
     image: nginx:1.15.12-alpine
     container_name: webserver
     restart: unless-stopped
+    env_file: .env
     ports:
       - "80:80"
       - "443:443"
@@ -56,7 +55,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - wordpress:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email bahybintang@gmail.com --agree-tos --no-eff-email --force-renewal -d canyous.top -d www.canyous.top
+    command: certonly --webroot --webroot-path=/var/www/html --email $USER_EMAIL --agree-tos --no-eff-email --force-renewal -d $USER_DOMAIN -d www.$USER_DOMAIN
 
 volumes:
   certbot-etc:
