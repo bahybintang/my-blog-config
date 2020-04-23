@@ -36,14 +36,12 @@ services:
     image: nginx:1.17.10-alpine
     container_name: webserver
     restart: unless-stopped
-    env_file: .env
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - wordpress:/var/www/html
       - ./nginx-conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - ./nginx-conf/options-ssl-nginx.conf:/etc/nginx/conf.d/options-ssl-nginx.conf
       - ./certificates:/etc/ssl
     networks:
       - app-network
