@@ -44,22 +44,11 @@ services:
       - wordpress:/var/www/html
       - ./nginx-conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
       - ./nginx-conf/options-ssl-nginx.conf:/etc/nginx/conf.d/options-ssl-nginx.conf
-      - certbot-etc:/etc/letsencrypt
+      - ./certificates:/etc/ssl
     networks:
       - app-network
 
-  certbot:
-    depends_on:
-      - webserver
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - certbot-etc:/etc/letsencrypt
-      - wordpress:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email $USER_EMAIL --agree-tos --no-eff-email --force-renewal -d $USER_DOMAIN -d www.$USER_DOMAIN
-
 volumes:
-  certbot-etc:
   wordpress:
   dbdata:
 
